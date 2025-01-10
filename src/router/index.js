@@ -5,6 +5,7 @@ import OrderView from "@/views/OrderView.vue";
 import ProductView from "@/views/ProductView.vue";
 import ProductAddView from "@/views/ProductAddView.vue";
 import ProductUpdateView from "@/views/ProductUpdateView.vue";
+import OrderListView from "@/views/OrderListView.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -23,6 +24,11 @@ const router = createRouter({
       path: "/order",
       name: "order",
       component: OrderView,
+    },
+    {
+      path: "/order/list",
+      name: "orderList",
+      component: OrderListView,
     },
     {
       path: "/product",
