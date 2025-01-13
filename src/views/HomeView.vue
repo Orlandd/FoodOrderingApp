@@ -1,7 +1,10 @@
 <template lang="">
   <NavBar :name=username :role=roleId />
   <div>
-    {{ username }}
+    <div class="container px-4">
+      <h6 class="text-xl font-semibold">Hi, {{ username }}</h6>
+
+    </div>
   </div>
 </template>
 

@@ -1,117 +1,121 @@
 <template lang="">
   <NavBar :name="username" :role="roleId" />
 
-  <div class="container-fluid mt-5">
-    <div class="row">
-      <!-- item list -->
-      <div class="col-12 col-sm-8 mb-3">
-        <!-- search -->
-        <div class="col-12">
-          <input
-            type="text"
-            name=""
-            id=""
-            v-model="search"
-            :onchange="searchItem()"
-            class="form-control"
-            placeholder="Search for food"
-          />
-        </div>
-        <hr />
-        <!-- item -->
-        <div class="col-12 mb-3">
-          <div class="row">
-            <div
-              v-for="(item, index) in filteredItems"
-              :key="index"
-              class="col-12 col-md-6 col-lg-3"
-            >
-              <div class="card">
-                <img
-                  :src="baseUrlImage + item.image"
-                  height="250px"
-                  class="card-img-top object-fit-cover"
-                  alt="..."
-                />
-                <div class="card-body text-center">
-                  <h5 class="card-title">{{ item.name }}</h5>
-                  <p class="card-text">{{ item.price }}</p>
-                  <button class="btn btn-success" @click="orderItem(item.id)">
-                    Order
-                  </button>
-                </div>
+  <div class="container">
+    <div class="p-3">
+      <input
+        type="text"
+        name=""
+        id=""
+        v-model="search"
+        :onchange="searchItem()"
+        class="border-1 px-4 py-2 w-full rounded-full"
+        placeholder="Search for food"
+      />
+    </div>
+  </div>
+
+  <div class="container px-4">
+    <div
+      class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 w-full mb-4"
+    >
+      <div
+        class="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-2 lg:gap-4 lg:col-span-2"
+      >
+        <div v-for="(item, index) in filteredItems" :key="index">
+          <div
+            class="p-2 border-1 shadow-md rounded-md hover:shadow-lime-300 hover:scale-105 transition-all"
+          >
+            <div class="aspect-square bg-slate-400 rounded-md overflow-hidden">
+              <img
+                v-if="item.image"
+                :src="baseUrlImage + item.image"
+                class="object-cover w-full h-full"
+                alt="Image"
+              />
+              <img
+                v-else="!item.image"
+                src="@/assets/images/noImage.png"
+                class="object-cover w-full h-full"
+                alt="Image"
+              />
+            </div>
+            <div class="">
+              <h3 class="text-lg">{{ item.name }}</h3>
+              <div class="flex justify-between mt-2">
+                <p class="font-bold">{{ formatToIDR(item.price) }}</p>
+                <button
+                  class="px-3 bg-lime-200 rounded-full text-sm hover:bg-lime-400 transition-all"
+                  @click="orderItem(item.id)"
+                >
+                  Order
+                </button>
               </div>
             </div>
           </div>
         </div>
       </div>
-      <!-- item list -->
-
-      <!-- ordered item -->
-      <div class="col-12 col-sm-4 mb-3">
-        <h2>Order List</h2>
-        <hr />
-        <div class="my-3">
+      <div class="w-full">
+        <h2 class="text-lg font-semibold">Order List</h2>
+        <hr class="my-3" />
+        <div class="">
+          <label for="customerName" class="w-full mb-1"> Customer Name </label>
+          <input
+            type="text"
+            class="px-2 border-1 rounded-md py-2 w-full"
+            id="customerName"
+            v-model="customerName"
+          />
+          <label for="tableNo" class="w-full mb-1"> Table No </label>
+          <input
+            type="text"
+            class="px-2 border-1 rounded-md py-2 w-full"
+            id="tableNo"
+            v-model="tableNo"
+          />
+        </div>
+        <div
+          class="w-full flex justify-between items-center px-2 border-1 rounded-md py-2 my-2"
+          v-for="(order, index) in orders"
+          :key="index"
+        >
           <div class="">
-            <label for="customerName" class="form-label"> Customer Name </label>
-            <input
-              type="text"
-              class="form-control"
-              id="customerName"
-              v-model="customerName"
-            />
-            <label for="tableNo" class="form-label"> Table No </label>
-            <input
-              type="text"
-              class="form-control"
-              id="tableNo"
-              v-model="tableNo"
-            />
-          </div>
-        </div>
-        <hr />
-        <div class="">
-          <div class="mb-3" v-for="(order, index) in orders" :key="index">
-            <div class="d-flex justify-content-between fs-5">
-              <span>{{ order.name }}</span>
-              <span>{{ formatToIDR(order.price) }}</span>
-            </div>
-            <div class="d-flex justify-content-between fs-5">
-              <span class="fs-6 fw-light"
-                >@{{ formatToIDR(order.eachPrice) }}</span
+            <h3 class="text-lg">{{ order.name }}</h3>
+            <p class="font-bold">@{{ formatToIDR(order.eachPrice) }}</p>
+            <div class="">
+              <button
+                class="px-3 text-sm bg-yellow-300 rounded-full hover:bg-yellow-400 transition-all"
+                @click="quantityDecrease(order.id)"
               >
-              <div class="">
-                <button
-                  class="btn btn-sm btn-warning"
-                  @click="quantityDecrease(order.id)"
-                >
-                  -
-                </button>
-                <span class="mx-4">{{ order.quantity }}</span>
-                <button
-                  class="btn btn-sm btn-success"
-                  @click="quantityIncrease(order.id)"
-                >
-                  +
-                </button>
-                <button
-                  class="btn btn-sm btn-danger ms-3"
-                  @click="deleteItem(order.id)"
-                >
-                  delete
-                </button>
-              </div>
+                -
+              </button>
+              <span class="px-3">{{ order.quantity }}</span>
+              <button
+                class="px-3 text-sm bg-lime-300 rounded-full hover:bg-lime-400 transition-all"
+                @click="quantityIncrease(order.id)"
+              >
+                +
+              </button>
+              <button
+                class="px-3 text-sm bg-red-300 rounded-full ms-3 hover:bg-red-400 transition-all"
+                @click="deleteItem(order.id)"
+              >
+                x
+              </button>
             </div>
           </div>
+          <div class="">
+            <span class="font-bold">{{ formatToIDR(order.price) }}</span>
+          </div>
         </div>
-        <hr />
+        <hr class="my-3" />
         <div class="">
-          <div class="d-flex justify-content-between fs-5 mb-3 fw-bold">
-            <span>Total</span>
-            <span>{{ formatToIDR(total) }}</span>
+          <div class="flex justify-between items-center">
+            <h2 class="text-lg font-semibold">Total Price</h2>
+            <h2 class="text-lg font-semibold">{{ formatToIDR(total) }}</h2>
           </div>
           <button
-            class="btn btn-primary w-100"
+            class="w-full bg-lime-200 py-2 rounded-md text-center font-bold mt-3 hover:bg-lime-400 transition-all"
             x-bind:disabled="processing"
             @click="submitOrder()"
           >
@@ -119,7 +123,6 @@
           </button>
         </div>
       </div>
-      <!-- ordered item -->
     </div>
   </div>
 </template>

@@ -3,13 +3,13 @@
     <NavBar :name="username" :role="roleId" />
 
     <div class="container mt-5">
-      <h2 class="text-center mb-4">Update Product</h2>
+      <h2 class="text-center mb-4 text-2xl font-semibold">Update Product</h2>
       <form @submit.prevent="updateItem()" enctype="multipart/form-data">
         <div class="mb-3">
-          <label for="name" class="form-label">Product Name</label>
+          <label for="name" class="mb-1 w-full">Product Name</label>
           <input
             type="text"
-            class="form-control"
+            class="px-2 py-2 rounded-md border-1 w-full"
             id="name"
             v-model="item.name"
             placeholder="Enter product name"
@@ -17,10 +17,10 @@
           />
         </div>
         <div class="mb-3">
-          <label for="price" class="form-label">Price</label>
+          <label for="price" class="mb-1 w-full">Price</label>
           <input
             type="number"
-            class="form-control"
+            class="px-2 py-2 rounded-md border-1 w-full"
             id="price"
             v-model="item.price"
             placeholder="Enter product price"
@@ -28,7 +28,7 @@
           />
         </div>
         <div class="mb-3">
-          <label for="price" class="form-label">Current Image</label><br>
+          <label for="price" class="mb-1 w-full">Current Image</label><br>
           <img
             v-if="item.image"
             :src="baseUrlImage + item.image"
@@ -43,16 +43,16 @@
           />
         </div>
         <div class="mb-3">
-          <label for="image" class="form-label">Product Image</label>
+          <label for="image" class="mb-1 w-full">Product Image</label>
           <input
             type="file"
-            class="form-control"
+            class="px-2 py-2 rounded-md border-1 w-full"
             id="image"
             @change="imageChanged($event)"
             accept="image/*"
           />
         </div>
-        <button type="submit" class="btn btn-primary w-100">Submit</button>
+        <button type="submit" class="w-full py-2 bg-cyan-200 rounded-full">Submit</button>
       </form>
     </div>
   </div>

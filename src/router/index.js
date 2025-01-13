@@ -8,6 +8,7 @@ import ProductUpdateView from "@/views/ProductUpdateView.vue";
 import OrderListView from "@/views/OrderListView.vue";
 import OrderListDetailView from "@/views/OrderListDetailView.vue";
 import OrderReportView from "@/views/OrderReportView.vue";
+import { IStaticMethods } from "preline/preline";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),

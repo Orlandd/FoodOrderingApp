@@ -2,45 +2,47 @@
   <div>
     <NavBar :name="username" :role="roleId" />
 
-    <div class="container mt-5">
-      <h2>Order List</h2>
-      <table class="table table-striped table-hover">
-        <thead>
-          <tr>
-            <th scope="col">#</th>
-            <th scope="col">Customer Name</th>
-            <th scope="col">Table No</th>
-            <th scope="col">Order Date</th>
-            <th scope="col">Time</th>
-            <th scope="col">Total</th>
-            <th scope="col">Status</th>
-            <th scope="col">Waitress</th>
-            <th scope="col">Cashier</th>
-            <th scope="col">Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="(order, index) in orders">
-            <th scope="row">{{ index + 1 }}</th>
-            <td>{{ order.customer_name }}</td>
-            <td>{{ order.table_no }}</td>
-            <td>{{ order.order_date }}</td>
-            <td>{{ order.order_time }}</td>
-            <td>{{ order.total }}</td>
-            <td>{{ order.status }}</td>
-            <td>{{ order.waitress.name }}</td>
-            <td>{{ order.cashier ? order.cashier.name : 'Not Assigned' }}</td>
-            <td>
-              <RouterLink
-                :to="{ name: 'orderListDetail', params: { id: order.id } }"
-                class="badge bg-primary text-decoration-none"
-              >
-                Detail
-              </RouterLink>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+    <div class="container px-4 mt-5">
+      <h2 class="font-medium text-xl text-center my-6">Order List</h2>
+      <div class="relative overflow-x-auto shadow-md sm:rounded-lg mb-5">
+        <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+          <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+            <tr>
+              <th class="px-6 py-3" scope="col">#</th>
+              <th class="px-6 py-3" scope="col">Customer Name</th>
+              <th class="px-6 py-3" scope="col">Table No</th>
+              <th class="px-6 py-3" scope="col">Order Date</th>
+              <th class="px-6 py-3" scope="col">Time</th>
+              <th class="px-6 py-3" scope="col">Total</th>
+              <th class="px-6 py-3" scope="col">Status</th>
+              <th class="px-6 py-3" scope="col">Waitress</th>
+              <th class="px-6 py-3" scope="col">Cashier</th>
+              <th class="px-6 py-3" scope="col">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="(order, index) in orders" class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+              <th class="px-6 py-3" scope="row">{{ index + 1 }}</th>
+              <td class="px-6 py-3">{{ order.customer_name }}</td>
+              <td class="px-6 py-3">{{ order.table_no }}</td>
+              <td class="px-6 py-3">{{ order.order_date }}</td>
+              <td class="px-6 py-3">{{ order.order_time }}</td>
+              <td class="px-6 py-3">{{ order.total }}</td>
+              <td class="px-6 py-3">{{ order.status }}</td>
+              <td class="px-6 py-3">{{ order.waitress.name }}</td>
+              <td class="px-6 py-3">{{ order.cashier ? order.cashier.name : "Not Assigned" }}</td>
+              <td class="px-6 py-3">
+                <RouterLink
+                  :to="{ name: 'orderListDetail', params: { id: order.id } }"
+                  class="px-3 py-1 bg-cyan-300 rounded-full font-semibold text-slate-900"
+                >
+                  Detail
+                </RouterLink>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
   </div>
 </template>
@@ -101,8 +103,8 @@ export default {
             router.push({ name: "login" });
           }
         });
-    }
-  }
+    },
+  },
 };
 </script>
 <style lang=""></style>

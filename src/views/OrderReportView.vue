@@ -2,11 +2,11 @@
   <div>
     <NavBar :name="username" :role="roleId" />
 
-    <div class="container mt-5">
+    <div class="container px-4 mt-5">
       <div class="mb-3 w-50">
-        <label for="month" class="form-label">Month</label>
+        <label for="month" class="font-semibold mb-1 w-full">Month</label>
         <select
-          class="form-select form-select-sm"
+          class="rounded-full border-1 px-2  py-2 w-full"
           aria-label="Small select example"
           id="month"
           v-model="month"
@@ -19,7 +19,7 @@
         </select>
       </div>
 
-      <div class="col-12 mt-5">
+      <!-- <div class="col-12 mt-5">
         <div class="row ">
           <div class="col-12 col-sm-4 ">
             <div class="bg-primary-subtle rounded-2 p-2">
@@ -34,43 +34,60 @@
             </div>
           </div>
           <div class="col-12 col-sm-4 ">
-            <div class="bg-primary-subtle rounded-2 p-2">
+            <div class="bg-lime-400 rounded-2 p-2">
               <h4>Max Payment</h4>
               <p class="fw-bold fs-4">{{ reports.max_payment }}</p>
             </div>
           </div>
         </div>
+      </div> -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div class="p-4 border-3 rounded-lg border-lime-300">
+          <h4 class="text-2xl">Order Count</h4>
+          <p class="fw-bold fs-4">{{ reports.order_count }}</p>
+        </div>
+        <div class="p-4 border-3 rounded-lg border-lime-300">
+          <h4 class="text-2xl">Min Payment</h4>
+          <p class="fw-bold fs-4">{{ formatToIDR(reports.min_payment) }}</p>
+        </div>
+        <div class="p-4 border-3 rounded-lg border-lime-300">
+          <h4 class="text-2xl">Max Payment</h4>
+          <p class="fw-bold fs-4">{{ formatToIDR(reports.max_payment) }}</p>
+        </div>
       </div>
 
-      <hr>
-      <table class="table table-striped table-hover">
-        <thead>
-          <tr>
-            <th scope="col">#</th>
-            <th scope="col">Customer Name</th>
-            <th scope="col">Table No</th>
-            <th scope="col">Order Date</th>
-            <th scope="col">Time</th>
-            <th scope="col">Total</th>
-            <th scope="col">Status</th>
-            <th scope="col">Waitress</th>
-            <th scope="col">Cashier</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="(report, index) in reports.orders">
-            <th scope="row">{{ index + 1 }}</th>
-            <td>{{ report.customer_name }}</td>
-            <td>{{ report.table_no }}</td>
-            <td>{{ report.order_date }}</td>
-            <td>{{ report.order_time }}</td>
-            <td>{{ report.total }}</td>
-            <td>{{ report.status }}</td>
-            <td>{{ report.waitress?.name }}</td>
-            <td>{{ report.cashier ? report.cashier.name : 'Not Assigned' }}</td>
-          </tr>
-        </tbody>
-      </table>
+      <hr class="my-5">
+      <div class="relative overflow-x-auto shadow-md sm:rounded-lg mb-5">
+        <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+          <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+            <tr>
+              <th class="px-6 py-3" scope="col">#</th>
+              <th class="px-6 py-3" scope="col">Customer Name</th>
+              <th class="px-6 py-3" scope="col">Table No</th>
+              <th class="px-6 py-3" scope="col">Order Date</th>
+              <th class="px-6 py-3" scope="col">Time</th>
+              <th class="px-6 py-3" scope="col">Total</th>
+              <th class="px-6 py-3" scope="col">Status</th>
+              <th class="px-6 py-3" scope="col">Waitress</th>
+              <th class="px-6 py-3" scope="col">Cashier</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="(report, index) in reports.orders" class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+              <th class="px-6 py-3" scope="row">{{ index + 1 }}</th>
+              <td class="px-6 py-3">{{ report.customer_name }}</td>
+              <td class="px-6 py-3">{{ report.table_no }}</td>
+              <td class="px-6 py-3">{{ report.order_date }}</td>
+              <td class="px-6 py-3">{{ report.order_time }}</td>
+              <td class="px-6 py-3">{{ formatToIDR(report.total) }}</td>
+              <td class="px-6 py-3">{{ report.status }}</td>
+              <td class="px-6 py-3">{{ report.waitress?.name }}</td>
+              <td class="px-6 py-3">{{ report.cashier ? report.cashier.name : 'Not Assigned' }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      
     </div>
   </div>
 </template>
@@ -78,6 +95,7 @@
 import NavBar from "@/components/NavBar.vue";
 import axios from "axios";
 import router from "@/router";
+import { initFlowbite } from 'flowbite'
 
 export default {
   components: {
@@ -116,6 +134,7 @@ export default {
   },
   mounted() {
     // INI HARUS DICEK KE DATABASE ATAU ENKRIPSI
+    initFlowbite();
 
     this.orderId = this.$route.params.id;
     this.username = localStorage.getItem("name");
@@ -131,6 +150,13 @@ export default {
     this.getData();
   },
   methods: {
+    formatToIDR(value) {
+      return new Intl.NumberFormat("id-ID", {
+        style: "currency",
+        currency: "IDR",
+        minimumFractionDigits: 0, // Bisa diubah sesuai kebutuhan
+      }).format(value);
+    },
     getData() {
       axios
         .get(`http://foodorder.test/api/order-report?month=${this.month}`, {
