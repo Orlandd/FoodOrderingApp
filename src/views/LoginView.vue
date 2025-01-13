@@ -1,33 +1,35 @@
 <template>
-    <div>
-        <div class="container d-flex justify-content-center align-items-center vh-100">
-            <div class="card shadow-sm" style="width: 24rem;">
-                <div class="card-body">
-                    <h5 class="card-title text-center mb-4">Login</h5>
-                    <form @submit.prevent="login">
-                        <div class="mb-3">
-                            <label for="email" class="form-label">Email address</label>
-                            <input type="email" v-model="email" class="form-control" id="email"
-                                placeholder="Enter your email" required />
-                        </div>
-                        <div class="mb-3">
-                            <label for="password" class="form-label">Password</label>
-                            <input type="password" v-model="password" class="form-control" id="password"
-                                placeholder="Enter your password" required />
-                        </div>
-                        <div class="mb-3 form-check">
-                            <input type="checkbox" class="form-check-input" id="rememberMe" />
-                            <label class="form-check-label" for="rememberMe">Remember me</label>
-                        </div>
-                        <button type="submit" class="btn btn-primary w-100">Login</button>
-                    </form>
-                    <div class="mt-3 text-center">
-                        <small>Don't have an account? <a href="#">Sign up</a></small>
-                    </div>
+    <div class="flex justify-center items-center min-h-screen bg-gray-100">
+        <div class="w-96 bg-white shadow-md rounded-lg p-6">
+            <h5 class="text-center text-2xl font-semibold mb-6">Login</h5>
+            <form @submit.prevent="login">
+                <div class="mb-4">
+                    <label for="email" class="block text-sm font-medium text-gray-700">Email address</label>
+                    <input type="email" id="email" v-model="email" placeholder="Enter your email" required
+                        class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" />
                 </div>
+                <div class="mb-4">
+                    <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
+                    <input type="password" id="password" v-model="password" placeholder="Enter your password" required
+                        class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" />
+                </div>
+                <div class="flex items-center mb-4">
+                    <input type="checkbox" id="rememberMe"
+                        class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded">
+                    <label for="rememberMe" class="ml-2 block text-sm text-gray-900">Remember me</label>
+                </div>
+                <button type="submit"
+                    class="w-full bg-cyan-300 text-white py-2 px-4 rounded-md hover:bg-cyan-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
+                    Login
+                </button>
+            </form>
+            <div class="mt-4 text-center">
+                <small class="text-gray-600">Don't have an account? <a href="#"
+                        class="text-cyan-500 hover:underline">Sign up</a></small>
             </div>
         </div>
     </div>
+
 </template>
 
 <script>
